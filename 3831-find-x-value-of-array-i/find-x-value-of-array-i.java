@@ -1,0 +1,34 @@
+class Solution {
+    public long[] resultArray(int[] nums, int k) {
+
+        long[] result = new long[k];
+        long[] dp = new long[k];
+
+        for (int num : nums) {
+
+            long[] next = new long[k];
+
+            // Start a new subarray with num
+            int rem = num % k;
+            next[rem]++;
+
+            // Extend previous subarrays
+            for (int r = 0; r < k; r++) {
+
+                if (dp[r] > 0) {
+                    int newRem = (int)((long) r * rem % k);
+                    next[newRem] += dp[r];
+                }
+            }
+
+            dp = next;
+
+            // Add all subarrays ending here
+            for (int r = 0; r < k; r++) {
+                result[r] += dp[r];
+            }
+        }
+
+        return result;
+    }
+}
